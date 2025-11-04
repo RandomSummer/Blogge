@@ -1,0 +1,223 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      {% block title %}
+        Blogge
+      {% endblock %}
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+      .search-box input::placeholder {
+        font-size: 0.9rem;
+      }
+      
+      .navbar-nav .nav-link {
+        position: relative;
+        color: #fff;
+        transition: color 0.3s ease;
+      }
+      
+      .navbar-nav .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0%;
+        height: 2px;
+        background-color: #ff6b6b; /* Light reddish */
+        transition: width 0.3s ease;
+      }
+      
+      .navbar-nav .nav-link:hover {
+        color: #ff6b6b; /* Light reddish */
+      }
+      
+      .navbar-nav .nav-link:hover::after {
+        width: 100%;
+      }
+      
+      .home-effect:hover {
+        color: #ff6b6b;
+      }
+      
+      .navbar-collapse {
+        max-height: 0;
+        transition: max-height 0.2s ease;
+      }
+      
+      .navbar-collapse.show {
+        max-height: 500px; /* Adjust based on your content height */
+      }
+    </style>
+  </head>
+  <body>
+    {% comment %}navbar{% endcomment %}
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <div class="container-fluid">
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">Blogge</a>
+
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+          <!-- Centered Nav Links -->
+          <ul class="navbar-nav mx-auto mb-2 mb-md-0 text-center">
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{% url 'tweet_list' %}"><span class="home-effect">Home</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="#"><span class="home-effect">Blogge</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="#"><span class="home-effect">Quotes</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="#"><span class="home-effect">Contact Us</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="#"><span class="home-effect">About</span></a>
+            </li>
+          </ul>
+
+          <!-- Right Section (Search + Buttons) -->
+          <div class="d-flex flex-column flex-md-row align-items-center gap-2">
+
+            <!-- Login & Sign-up -->
+            <div class="d-flex flex-column flex-md-row align-items-center gap-2">
+              {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <button class="btn btn-danger" type="submit">Logout</button>
+                </form>
+              {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline-success fw-bold">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-warning">Sign Up</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    {% comment %}-----------------------------------------------------------------------------------------cover page---------------------------------------------------------------------{% endcomment %}
+
+    {% block cover_page %}
+
+    {% endblock %}
+    {% comment %}cover slide{% endcomment %}
+
+    {% comment %}-----------------------------------------------------------------------------------------templates---------------------------------------------------------------------{% endcomment %}
+
+    <div class="container">
+      {% block content %}
+
+      {% endblock %}
+    </div>
+    {% comment %}-----------------------------------------------------------------------------------------templates---------------------------------------------------------------------{% endcomment %}
+
+    {% comment %}jumbotron{% endcomment %}
+
+
+    {% comment %}footer{% endcomment %}
+    {% comment %} <footer class="container py-5">
+      <div class="row">
+        <div class="col-12 col-md">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24">
+            <title>Product</title><circle cx="12" cy="12" r="10"></circle>
+            <path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"></path>
+          </svg>
+          <small class="d-block mb-3 text-muted">© 2025-2026</small>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Features</h5>
+          <ul class="list-unstyled text-small">
+            <li>
+              <a class="link-secondary" href="#">Cool stuff</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Random feature</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Team feature</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Stuff for developers</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Another one</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Last time</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Resources</h5>
+          <ul class="list-unstyled text-small">
+            <li>
+              <a class="link-secondary" href="#">Resource name</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Resource</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Another resource</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Final resource</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Resources</h5>
+          <ul class="list-unstyled text-small">
+            <li>
+              <a class="link-secondary" href="#">Business</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Education</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Government</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Gaming</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>About</h5>
+          <ul class="list-unstyled text-small">
+            <li>
+              <a class="link-secondary" href="#">Team</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Locations</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Privacy</a>
+            </li>
+            <li>
+              <a class="link-secondary" href="#">Terms</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer> {% endcomment %}
+
+    <footer class="footer mt-auto py-3 bg-light">
+      <div class="container">
+        <span class="text-muted">Place sticky footer content here.</span>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

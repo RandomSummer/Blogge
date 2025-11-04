@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Blogge
+{% endblock  %}
+{% block content %}
+
+<h1 class="text-center mt-4">Edit/Create Tweet</h1>
+
+<h2>
+{% if form.instance.id %}
+    Edit Tweet
+{% else %}
+    Create Tweet
+{% endif %}
+</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-warning">Create</button>
+</form>
+<a class="btn btn-primary mb-4" href="{% url "tweet_list" %}">Tweet list</a> 
+
+
+{% endblock  %}
+
+
